@@ -28,7 +28,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, currentView, onNaviga
           <div className="flex items-center gap-1">
             <span className="text-orange-600 text-2xl">BCC</span>
           </div>
-          <span className="text-[10px] text-gray-500 font-medium leading-none">Benny's Creamy Creation</span>
+          <span className="text-[10px] text-gray-500 font-medium leading-none">Ben's Creamy Creation</span>
         </div>
       </div>
 
