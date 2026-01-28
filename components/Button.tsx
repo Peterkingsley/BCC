@@ -14,21 +14,20 @@ export const Button: React.FC<ButtonProps> = ({
   className = '',
   ...props 
 }) => {
-  const baseStyles = "inline-flex items-center justify-center font-semibold transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95 disabled:opacity-50 disabled:pointer-events-none";
+  const baseStyles = "inline-flex items-center justify-center font-semibold transition-all duration-200 rounded shadow-sm focus:outline-none disabled:opacity-50 disabled:pointer-events-none uppercase tracking-wide";
   
   const variants = {
-    // Updated to Brand Red #EA4335
-    primary: "bg-[#EA4335] hover:bg-[#d33426] text-white shadow-lg shadow-red-200 focus:ring-[#EA4335]",
+    // Jumia Orange #f68b1e
+    primary: "bg-[#f68b1e] hover:bg-[#d67613] text-white focus:ring-[#f68b1e] border border-[#f68b1e]",
     secondary: "bg-gray-900 hover:bg-gray-800 text-white shadow-lg focus:ring-gray-900",
-    // Outline updated to hover Red
-    outline: "border-2 border-gray-200 hover:border-[#EA4335] hover:text-[#EA4335] text-gray-700 bg-transparent",
+    outline: "border border-[#f68b1e] text-[#f68b1e] hover:bg-orange-50 bg-white",
     ghost: "text-gray-600 hover:bg-gray-100 hover:text-gray-900",
   };
 
   const sizes = {
-    sm: "text-sm px-3 py-1.5",
-    md: "text-base px-5 py-3",
-    lg: "text-lg px-8 py-4",
+    sm: "text-xs px-3 py-1.5",
+    md: "text-sm px-4 py-2.5",
+    lg: "text-base px-6 py-3",
   };
 
   return (

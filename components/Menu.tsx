@@ -1,73 +1,98 @@
-import React, { useState } from 'react';
-import { Product, Category } from '../types';
-import { CATEGORIES, MENU_ITEMS, CURRENCY } from '../constants';
+import React from 'react';
+import { Product } from '../types';
+import { MENU_ITEMS, CURRENCY } from '../constants';
 import { Button } from './Button';
-import { Plus } from 'lucide-react';
+import { Star } from 'lucide-react';
 
 interface MenuProps {
   onAddToCart: (product: Product) => void;
 }
 
 export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
-  const [activeCategory, setActiveCategory] = useState<Category>('All');
-
-  const filteredItems = activeCategory === 'All' 
-    ? MENU_ITEMS 
-    : MENU_ITEMS.filter(item => item.category === activeCategory);
-
   return (
-    <div className="pb-24">
-      {/* Category Filter */}
-      <div className="sticky top-16 bg-white z-40 py-4 border-b border-gray-100 shadow-sm overflow-x-auto no-scrollbar">
-        <div className="flex gap-2 px-4 min-w-max">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat as Category)}
-              className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                activeCategory === cat 
-                  // Updated active state to Brand Blue #4285F4
-                  ? 'bg-[#4285F4] text-white shadow-md transform scale-105' 
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+    <div className="container mx-auto px-4 max-w-7xl pb-16">
+      
+      {/* Jumia Style Header Bar */}
+      <div className="bg-[#f68b1e] text-white px-4 py-3 rounded-t flex justify-between items-center mb-0 shadow-sm">
+        <h2 className="font-bold text-lg md:text-xl">Limited Stock Deals | Up to 60% Off</h2>
+        <span className="text-xs font-semibold uppercase cursor-pointer hover:underline flex items-center gap-1">
+            See All <span className="text-lg">›</span>
+        </span>
       </div>
 
-      {/* Product Grid */}
-      <div className="px-4 pt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {filteredItems.map((item) => (
-          <div key={item.id} className="bg-white rounded-2xl p-3 shadow-md border border-gray-100 flex gap-4 hover:shadow-lg transition-shadow">
-            <div className="w-28 h-28 shrink-0 rounded-xl overflow-hidden bg-gray-100 relative">
-               <img src={item.image} alt={item.name} className="w-full h-full object-cover" loading="lazy" />
-               {item.popular && (
-                 // Updated POPULAR tag to Brand Red
-                 <span className="absolute top-0 left-0 bg-[#EA4335] text-white text-[10px] font-bold px-2 py-1 rounded-br-lg">
-                   POPULAR
-                 </span>
-               )}
-            </div>
-            <div className="flex flex-col flex-1 justify-between">
-              <div>
-                <h3 className="font-bold text-gray-900 leading-tight mb-1">{item.name}</h3>
-                <p className="text-xs text-gray-500 line-clamp-2 mb-2">{item.description}</p>
-              </div>
-              <div className="flex items-center justify-between mt-2">
-                <span className="font-bold text-lg text-gray-900">{CURRENCY}{item.price.toLocaleString()}</span>
-                <Button 
-                  size="sm" 
-                  onClick={() => onAddToCart(item)}
-                  className="!px-3 !py-2 rounded-lg"
+      {/* Grid Background */}
+      <div className="bg-white border border-gray-200 rounded-b p-2 md:p-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-4">
+            {MENU_ITEMS.map((item) => {
+              // Calculate discount percentage
+              const discount = item.originalPrice 
+                ? Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)
+                : 0;
+
+              return (
+                <div 
+                  key={item.id} 
+                  className="group bg-white rounded border border-transparent hover:border-gray-200 hover:shadow-lg transition-all duration-200 p-2 relative flex flex-col"
                 >
-                  <Plus className="w-4 h-4" /> Add
-                </Button>
-              </div>
-            </div>
-          </div>
-        ))}
+                    {/* Discount Tag */}
+                    {discount > 0 && (
+                        <div className="absolute top-2 right-2 bg-orange-100 text-[#f68b1e] text-[10px] md:text-xs font-bold px-1.5 py-0.5 rounded-sm z-10">
+                            -{discount}%
+                        </div>
+                    )}
+
+                    {/* Image Area */}
+                    <div className="w-full aspect-square mb-2 overflow-hidden relative">
+                        <img 
+                            src={item.image} 
+                            alt={item.name} 
+                            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                        />
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex flex-col flex-1">
+                        <h3 className="text-sm text-gray-700 truncate mb-1" title={item.name}>{item.name}</h3>
+                        
+                        {/* Price Section */}
+                        <div className="mb-1">
+                            <span className="text-base md:text-lg font-bold text-gray-900 block leading-tight">
+                                {CURRENCY}{item.price.toLocaleString()}
+                            </span>
+                            {item.originalPrice && (
+                                <span className="text-xs text-gray-400 line-through">
+                                    {CURRENCY}{item.originalPrice.toLocaleString()}
+                                </span>
+                            )}
+                        </div>
+
+                        {/* Ratings */}
+                        <div className="flex items-center gap-0.5 mb-3">
+                            {[1,2,3,4,5].map(star => (
+                                <Star 
+                                    key={star} 
+                                    className={`w-3 h-3 ${star <= (item.rating || 5) ? 'text-[#f68b1e] fill-[#f68b1e]' : 'text-gray-300'}`} 
+                                />
+                            ))}
+                            <span className="text-[10px] text-gray-400 ml-1">({Math.floor(Math.random() * 50) + 10})</span>
+                        </div>
+
+                        {/* Add Button - Hidden on Desktop until hover (Jumia style) */}
+                        <div className="mt-auto opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
+                             <Button 
+                                onClick={() => onAddToCart(item)} 
+                                fullWidth 
+                                size="sm" 
+                                className="uppercase text-xs md:text-sm font-bold shadow-none"
+                             >
+                                Add To Cart
+                             </Button>
+                        </div>
+                    </div>
+                </div>
+              );
+            })}
+        </div>
       </div>
     </div>
   );

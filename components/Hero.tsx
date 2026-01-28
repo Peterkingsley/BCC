@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './Button';
-import { ArrowRight, Flame, Clock, Award } from 'lucide-react';
+import { ArrowRight, Phone, ShieldCheck, Truck } from 'lucide-react';
+import { CATEGORIES } from '../constants';
 
 const BACKGROUND_IMAGES = [
   "https://shawerman.ae/wp-content/uploads/2024/04/Reasons-for-the-Popularity-of-Shawarma-in-the-UAE.jpg",
@@ -23,61 +24,93 @@ export const Hero: React.FC<HeroProps> = ({ onOrderNow }) => {
   }, []);
 
   return (
-    <div className="pb-10">
-      <div className="relative bg-gray-900 text-white overflow-hidden rounded-b-[2.5rem] shadow-2xl h-[500px] sm:h-auto">
-        {/* Background Image Slider */}
-        <div className="absolute inset-0 z-0">
+    <div className="container mx-auto px-4 max-w-7xl mt-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+        
+        {/* Left Sidebar (Desktop Only) */}
+        <div className="hidden md:block md:col-span-2 bg-white rounded shadow-sm border border-gray-100 p-2 h-[350px]">
+          <ul className="space-y-1">
+            {CATEGORIES.map((cat) => (
+              <li 
+                key={cat} 
+                className="px-2 py-2 text-xs text-gray-600 hover:text-[#f68b1e] hover:font-bold cursor-pointer transition-colors flex items-center gap-2"
+                onClick={onOrderNow}
+              >
+                {/* Mock Icons */}
+                <span className="text-lg opacity-50">›</span> {cat}
+              </li>
+            ))}
+            <li className="px-2 py-2 text-xs text-gray-600 flex items-center gap-2 border-t mt-2 pt-2">
+              <span className="text-lg opacity-50">●</span> More Categories
+            </li>
+          </ul>
+        </div>
+
+        {/* Center Carousel */}
+        <div className="col-span-1 md:col-span-8 h-[200px] md:h-[350px] relative rounded-lg overflow-hidden group">
           {BACKGROUND_IMAGES.map((img, index) => (
             <div
               key={img}
               className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                index === currentImageIndex ? 'opacity-50' : 'opacity-0'
+                index === currentImageIndex ? 'opacity-100' : 'opacity-0'
               }`}
             >
               <img 
                 src={img} 
-                alt="Delicious Shawarma" 
+                alt="Banner" 
                 className="w-full h-full object-cover"
               />
+              <div className="absolute inset-0 bg-black/30"></div>
+              <div className="absolute bottom-8 left-8 text-white max-w-md">
+                 <h2 className="text-3xl md:text-5xl font-black mb-2 leading-tight">BCC FOOD<br/>FESTIVAL</h2>
+                 <p className="mb-4 font-medium">Get 10% off when you prepay!</p>
+                 <Button onClick={onOrderNow} size="sm" className="shadow-lg">SHOP NOW</Button>
+              </div>
             </div>
           ))}
-        </div>
-        
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent z-0" />
-
-        <div className="relative z-10 px-6 py-20 flex flex-col items-center text-center max-w-2xl mx-auto min-h-[450px] justify-center">
-          {/* Brand Blue for Information/Trust */}
-          <div className="bg-[#4285F4]/90 text-white text-xs font-bold px-3 py-1 rounded-full mb-6 uppercase tracking-wider backdrop-blur-sm shadow-lg animate-pulse border border-blue-400/30">
-            Currently delivering to your area
+          
+          {/* Slider Indicators */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+             {BACKGROUND_IMAGES.map((_, idx) => (
+               <div 
+                key={idx} 
+                className={`w-2 h-2 rounded-full transition-colors ${idx === currentImageIndex ? 'bg-[#f68b1e]' : 'bg-white/50'}`}
+               />
+             ))}
           </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight drop-shadow-lg">
-            Fresh Shawarma <br />
-            {/* Brand Red for 'Hot' / Action */}
-            <span className="text-[#EA4335]">Delivered Hot.</span>
-          </h1>
-          <p className="text-gray-200 mb-8 text-lg max-w-md mx-auto font-medium drop-shadow-md">
-            Order mouth-watering grills & platters. Prepay online and get <span className="text-white font-bold bg-[#34A853] px-2 rounded mx-1 shadow-sm">10% OFF</span> your entire order!
-          </p>
-          <Button onClick={onOrderNow} size="lg" className="gap-2 group shadow-red-900/50">
-            Order Now <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Button>
         </div>
-      </div>
 
-      {/* Trust Indicators */}
-      <div className="grid grid-cols-3 gap-2 px-4 -mt-10 relative z-20 max-w-4xl mx-auto">
-        {[
-          { icon: Clock, text: "30-45 Mins Delivery" },
-          { icon: Flame, text: "Hot & Fresh Guarantee" },
-          { icon: Award, text: "1000+ Happy Clients" },
-        ].map((item, idx) => (
-          <div key={idx} className="bg-white p-4 rounded-xl shadow-xl flex flex-col items-center text-center gap-2 border border-gray-100">
-            {/* Icons in Brand Red */}
-            <item.icon className="w-6 h-6 text-[#EA4335]" />
-            <span className="text-xs font-semibold text-gray-700 leading-tight">{item.text}</span>
-          </div>
-        ))}
+        {/* Right Column (Desktop Only) */}
+        <div className="hidden md:flex md:col-span-2 flex-col gap-4 h-[350px]">
+           {/* Top Box */}
+           <div className="bg-white p-4 rounded shadow-sm border border-gray-100 flex-1 flex flex-col items-start justify-center gap-3">
+              <div className="flex items-center gap-3">
+                 <div className="p-2 bg-orange-100 rounded-full text-[#f68b1e]">
+                    <Phone className="w-5 h-5" />
+                 </div>
+                 <div className="flex flex-col">
+                    <span className="text-xs font-bold text-gray-900 uppercase">Call to Order</span>
+                    <span className="text-xs text-gray-500">0913-793-0575</span>
+                 </div>
+              </div>
+              <div className="flex items-center gap-3">
+                 <div className="p-2 bg-orange-100 rounded-full text-[#f68b1e]">
+                    <ShieldCheck className="w-5 h-5" />
+                 </div>
+                 <div className="flex flex-col">
+                    <span className="text-xs font-bold text-gray-900 uppercase">Quality</span>
+                    <span className="text-xs text-gray-500">100% Guaranteed</span>
+                 </div>
+              </div>
+           </div>
+
+           {/* Bottom Box (Ad style) */}
+           <div className="bg-orange-500 p-4 rounded shadow-sm flex-1 flex flex-col justify-center items-center text-center text-white bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+              <Truck className="w-8 h-8 mb-2 animate-bounce" />
+              <span className="font-black text-lg leading-tight uppercase">BCC<br/>FORCE</span>
+              <span className="text-xs mt-1 opacity-90">Fast Delivery</span>
+           </div>
+        </div>
       </div>
     </div>
   );
