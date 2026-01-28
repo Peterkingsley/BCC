@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { OrderState } from '../types';
-import { CURRENCY, DISCOUNT_RATE, DELIVERY_FEE, WHATSAPP_NUMBER } from '../constants';
+import { CURRENCY, WHATSAPP_NUMBER } from '../constants';
 import { Button } from './Button';
 import { Check, MessageCircle, Copy, CheckCircle2 } from 'lucide-react';
 
@@ -12,13 +12,14 @@ interface OrderSuccessProps {
 export const OrderSuccess: React.FC<OrderSuccessProps> = ({ order, onHome }) => {
   const [copied, setCopied] = useState(false);
 
-  // Construct WhatsApp Message
+  // Use stored values if available, otherwise fallback (though new orders will always have them)
   const subtotal = order.items.reduce((s, i) => s + i.price * i.quantity, 0);
   const pkgCost = order.packaging ? order.packaging.price : 0;
-  const total = subtotal + pkgCost;
-  const discount = order.paymentMethod === 'prepay' ? Math.round(total * DISCOUNT_RATE) : 0;
-  const finalTotal = total - discount + DELIVERY_FEE;
-
+  // Use stored financial snapshot for accuracy
+  const totalAmount = order.totalAmount;
+  const discount = order.discount;
+  const deliveryFee = order.deliveryFee;
+  
   const itemsList = order.items.map(i => `- ${i.quantity}x ${i.name} (${CURRENCY}${i.price})`).join('\n');
   const pkgText = order.packaging ? `\n🎁 Packaging: ${order.packaging.name} (${order.packagingMessage})` : '';
   
@@ -42,10 +43,10 @@ ${itemsList}
 ${pkgText}
 
 *Summary:*
-Subtotal: ${CURRENCY}${total}
-Delivery: ${CURRENCY}${DELIVERY_FEE}
+Subtotal: ${CURRENCY}${subtotal + pkgCost}
+Delivery: ${CURRENCY}${deliveryFee}
 Discount: -${CURRENCY}${discount}
-*TOTAL TO PAY: ${CURRENCY}${finalTotal}*
+*TOTAL TO PAY: ${CURRENCY}${totalAmount}*
 ---------------------------
 Please confirm my order!
 `.trim();

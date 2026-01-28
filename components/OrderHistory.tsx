@@ -23,8 +23,12 @@ export const OrderHistory: React.FC<OrderHistoryProps> = ({ orders, onStartOrder
     );
   }
 
-  // Calculate totals helper
-  const calculateTotal = (order: OrderState) => {
+  // Helper to fallback for old orders that might not have the 'totalAmount' field saved
+  const getOrderTotal = (order: OrderState) => {
+    if (order.totalAmount !== undefined) {
+      return order.totalAmount;
+    }
+    // Fallback calculation for backward compatibility
     const subtotal = order.items.reduce((s, i) => s + i.price * i.quantity, 0);
     const pkgCost = order.packaging ? order.packaging.price : 0;
     const total = subtotal + pkgCost;
@@ -71,7 +75,7 @@ export const OrderHistory: React.FC<OrderHistoryProps> = ({ orders, onStartOrder
               <div className="flex justify-between items-center pt-3 border-t border-gray-100">
                 <div className="flex flex-col">
                    <span className="text-xs text-gray-500">Total Paid</span>
-                   <span className="font-bold text-lg text-[#EA4335]">{CURRENCY}{calculateTotal(order).toLocaleString()}</span>
+                   <span className="font-bold text-lg text-[#EA4335]">{CURRENCY}{getOrderTotal(order).toLocaleString()}</span>
                 </div>
                 <div className="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">
                   {order.paymentMethod === 'prepay' ? 'Prepaid' : 'COD'}

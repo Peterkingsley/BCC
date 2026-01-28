@@ -9,6 +9,7 @@ import { OrderSuccess } from './components/OrderSuccess';
 import { OrderHistory } from './components/OrderHistory';
 import { ViewState, Product, CartItem, OrderState, PackagingOption, DeliveryDetails, PaymentProof } from './types';
 import { submitOrderToGoogleSheet } from './services/sheets';
+import { DISCOUNT_RATE, DELIVERY_FEE } from './constants';
 
 export default function App() {
   const [view, setView] = useState<ViewState>('home');
@@ -78,7 +79,15 @@ export default function App() {
 
   // Step 2: Finalize Order (used by COD directly, or PaymentView after confirmation)
   const finalizeOrder = (details: DeliveryDetails, paymentMethod: 'cod' | 'prepay', paymentProof?: PaymentProof) => {
+    // Calculate final numbers to freeze in order state
+    const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    const pkgCost = selectedPackaging ? selectedPackaging.price : 0;
+    const baseTotal = subtotal + pkgCost;
+    const discount = paymentMethod === 'prepay' ? Math.round(baseTotal * DISCOUNT_RATE) : 0;
+    const totalAmount = baseTotal - discount + DELIVERY_FEE;
+
     const newOrderId = Math.floor(100000 + Math.random() * 900000).toString(); 
+    
     const newOrder: OrderState = {
       id: newOrderId,
       date: new Date().toISOString(),
@@ -87,7 +96,10 @@ export default function App() {
       packagingMessage,
       deliveryDetails: details,
       paymentMethod,
-      paymentProof
+      paymentProof,
+      totalAmount,
+      deliveryFee: DELIVERY_FEE,
+      discount
     };
 
     // Update History
@@ -96,6 +108,7 @@ export default function App() {
     localStorage.setItem('bcc_order_history', JSON.stringify(updatedHistory));
 
     // Send to Google Sheets (Fire and forget)
+    // Now uses the pre-calculated totalAmount from the order object
     submitOrderToGoogleSheet(newOrder);
 
     setFinalOrder(newOrder);

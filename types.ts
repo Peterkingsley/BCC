@@ -1,5 +1,7 @@
 export type Category = 'All' | 'Shawarma' | 'Platters' | 'Sides' | 'Drinks';
 
+export type ViewState = 'home' | 'menu' | 'cart' | 'checkout' | 'payment' | 'history' | 'success';
+
 export interface Product {
   id: string;
   name: string;
@@ -44,6 +46,8 @@ export interface OrderState {
   deliveryDetails: DeliveryDetails;
   paymentMethod: 'cod' | 'prepay';
   paymentProof?: PaymentProof;
+  // Snapshot of financials at time of order
+  totalAmount: number;
+  deliveryFee: number;
+  discount: number;
 }
-
-export type ViewState = 'home' | 'menu' | 'cart' | 'checkout' | 'payment' | 'success' | 'history';

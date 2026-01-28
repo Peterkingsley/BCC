@@ -1,5 +1,5 @@
 import { OrderState } from '../types';
-import { GOOGLE_SCRIPT_URL, DISCOUNT_RATE, DELIVERY_FEE } from '../constants';
+import { GOOGLE_SCRIPT_URL } from '../constants';
 
 export const submitOrderToGoogleSheet = async (order: OrderState) => {
   const scriptUrl = GOOGLE_SCRIPT_URL.trim();
@@ -9,13 +9,8 @@ export const submitOrderToGoogleSheet = async (order: OrderState) => {
   }
 
   try {
-    const subtotal = order.items.reduce((s, i) => s + i.price * i.quantity, 0);
-    const pkgCost = order.packaging ? order.packaging.price : 0;
-    const baseTotal = subtotal + pkgCost;
-    const discount = order.paymentMethod === 'prepay' ? Math.round(baseTotal * DISCOUNT_RATE) : 0;
-    const finalTotal = baseTotal - discount + DELIVERY_FEE;
-
     // We use a flat object structure for Form Data
+    // We utilize the pre-calculated financials from the order object to ensure consistency
     const payload: Record<string, string | number> = {
         OrderId: order.id || 'N/A',
         Date: new Date().toLocaleString(),
@@ -25,7 +20,8 @@ export const submitOrderToGoogleSheet = async (order: OrderState) => {
         Items: order.items.map(i => `${i.quantity}x ${i.name}`).join(', '),
         Packaging: order.packaging ? order.packaging.name : 'Standard',
         Note: order.packagingMessage || '',
-        TotalAmount: finalTotal,
+        // Use the exact amount calculated in the app at time of order
+        TotalAmount: order.totalAmount, 
         PaymentMethod: order.paymentMethod,
         SenderName: order.paymentProof?.senderName || '-',
         SenderBank: order.paymentProof?.senderBank || '-',
