@@ -7,8 +7,6 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  originalPrice?: number; // Added for discount calculation
-  rating?: number;       // Added for star display
   image: string;
   category: Category;
   popular?: boolean;
