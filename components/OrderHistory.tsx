@@ -71,7 +71,7 @@ export const OrderHistory: React.FC<OrderHistoryProps> = ({ orders, onStartOrder
               <div className="flex justify-between items-center pt-3 border-t border-gray-100">
                 <div className="flex flex-col">
                    <span className="text-xs text-gray-500">Total Paid</span>
-                   <span className="font-bold text-lg text-orange-600">{CURRENCY}{calculateTotal(order).toLocaleString()}</span>
+                   <span className="font-bold text-lg text-[#EA4335]">{CURRENCY}{calculateTotal(order).toLocaleString()}</span>
                 </div>
                 <div className="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">
                   {order.paymentMethod === 'prepay' ? 'Prepaid' : 'COD'}

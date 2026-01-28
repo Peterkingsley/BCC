@@ -39,8 +39,9 @@ export const CartView: React.FC<CartViewProps> = ({
   if (items.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] px-6 text-center animate-pulse">
-        <div className="w-24 h-24 bg-orange-50 rounded-full flex items-center justify-center mb-6 shadow-sm">
-          <PartyPopper className="w-10 h-10 text-orange-400" />
+        {/* Brand Yellow for empty state highlight */}
+        <div className="w-24 h-24 bg-yellow-50 rounded-full flex items-center justify-center mb-6 shadow-sm">
+          <PartyPopper className="w-10 h-10 text-[#FBBC05]" />
         </div>
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
         <p className="text-gray-500 mb-8 max-w-[250px]">Looks like you haven't added any delicious food yet.</p>
@@ -91,7 +92,7 @@ export const CartView: React.FC<CartViewProps> = ({
                    
                    <button 
                      onClick={() => onUpdateQuantity(item.id, 1)} 
-                     className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm text-gray-600 hover:text-green-600 active:scale-90 transition-transform duration-100 border border-gray-100"
+                     className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm text-gray-600 hover:text-[#34A853] active:scale-90 transition-transform duration-100 border border-gray-100"
                    >
                      <Plus className="w-4 h-4" />
                    </button>
@@ -107,7 +108,7 @@ export const CartView: React.FC<CartViewProps> = ({
         <div className="mb-10">
           <div className="flex items-center justify-between mb-4 px-1">
              <h3 className="text-base font-bold text-gray-800">Complete Your Meal</h3>
-             <span className="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded-full">Recommended</span>
+             <span className="text-xs font-semibold text-[#EA4335] bg-red-50 px-2 py-1 rounded-full">Recommended</span>
           </div>
           
           <div className="flex gap-4 overflow-x-auto no-scrollbar pb-4 px-1">
@@ -120,7 +121,8 @@ export const CartView: React.FC<CartViewProps> = ({
                 <div className="text-xs text-gray-500 font-medium mb-3">{CURRENCY}{item.price.toLocaleString()}</div>
                 <button 
                   onClick={() => onAddUpsell(item)}
-                  className="w-full text-xs bg-orange-600 text-white font-bold px-3 py-2.5 rounded-xl shadow-lg shadow-orange-200 hover:bg-orange-700 active:scale-95 transition-all flex items-center justify-center gap-1.5"
+                  // Brand Red Add Button
+                  className="w-full text-xs bg-[#EA4335] text-white font-bold px-3 py-2.5 rounded-xl shadow-lg shadow-red-200 hover:bg-[#d33426] active:scale-95 transition-all flex items-center justify-center gap-1.5"
                 >
                   Add <Plus className="w-3.5 h-3.5" strokeWidth={3} />
                 </button>
@@ -211,7 +213,7 @@ export const CartView: React.FC<CartViewProps> = ({
               <span>Total</span>
               <span>{CURRENCY}{total.toLocaleString()}</span>
            </div>
-           <Button onClick={onCheckout} fullWidth size="lg" className="shadow-xl shadow-orange-200 mt-2">
+           <Button onClick={onCheckout} fullWidth size="lg" className="shadow-xl shadow-red-200 mt-2">
              Proceed to Checkout
            </Button>
         </div>

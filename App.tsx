@@ -207,10 +207,11 @@ export default function App() {
         <div className="fixed bottom-6 left-0 right-0 px-4 z-40 flex justify-center">
             <button 
                 onClick={() => setView('cart')}
-                className="bg-gray-900 text-white shadow-xl shadow-gray-400/50 rounded-full px-6 py-3 flex items-center gap-3 animate-bounce"
+                // Brand Red sticky button
+                className="bg-[#EA4335] text-white shadow-xl shadow-red-400/50 rounded-full px-6 py-3 flex items-center gap-3 animate-bounce"
             >
                 <span className="font-bold">{cartCount} items</span>
-                <span className="w-px h-4 bg-gray-600"></span>
+                <span className="w-px h-4 bg-red-300"></span>
                 <span className="font-bold">View Cart</span>
             </button>
         </div>

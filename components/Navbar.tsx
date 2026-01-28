@@ -62,7 +62,8 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, currentView, onNaviga
         <div className="flex items-center gap-1 sm:gap-2">
            <button 
             onClick={() => onNavigate('history')} 
-            className={`p-2 rounded-full transition-colors ${currentView === 'history' ? 'bg-orange-100 text-orange-600' : 'hover:bg-gray-100 text-gray-600'}`}
+            // Updated to Brand Blue Theme
+            className={`p-2 rounded-full transition-colors ${currentView === 'history' ? 'bg-blue-50 text-[#4285F4]' : 'hover:bg-gray-100 text-gray-600'}`}
             title="Order History"
           >
             <History className="w-6 h-6" />

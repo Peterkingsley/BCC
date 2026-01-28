@@ -47,17 +47,19 @@ export const Hero: React.FC<HeroProps> = ({ onOrderNow }) => {
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent z-0" />
 
         <div className="relative z-10 px-6 py-20 flex flex-col items-center text-center max-w-2xl mx-auto min-h-[450px] justify-center">
-          <div className="bg-orange-600/90 text-xs font-bold px-3 py-1 rounded-full mb-6 uppercase tracking-wider backdrop-blur-sm shadow-lg animate-pulse border border-orange-400/30">
+          {/* Brand Blue for Information/Trust */}
+          <div className="bg-[#4285F4]/90 text-white text-xs font-bold px-3 py-1 rounded-full mb-6 uppercase tracking-wider backdrop-blur-sm shadow-lg animate-pulse border border-blue-400/30">
             Currently delivering to your area
           </div>
           <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight drop-shadow-lg">
             Fresh Shawarma <br />
-            <span className="text-orange-400">Delivered Hot.</span>
+            {/* Brand Red for 'Hot' / Action */}
+            <span className="text-[#EA4335]">Delivered Hot.</span>
           </h1>
           <p className="text-gray-200 mb-8 text-lg max-w-md mx-auto font-medium drop-shadow-md">
-            Order mouth-watering grills & platters. Prepay online and get <span className="text-white font-bold bg-green-600 px-2 rounded mx-1 shadow-sm">10% OFF</span> your entire order!
+            Order mouth-watering grills & platters. Prepay online and get <span className="text-white font-bold bg-[#34A853] px-2 rounded mx-1 shadow-sm">10% OFF</span> your entire order!
           </p>
-          <Button onClick={onOrderNow} size="lg" className="gap-2 group shadow-orange-900/50">
+          <Button onClick={onOrderNow} size="lg" className="gap-2 group shadow-red-900/50">
             Order Now <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
@@ -71,7 +73,8 @@ export const Hero: React.FC<HeroProps> = ({ onOrderNow }) => {
           { icon: Award, text: "1000+ Happy Clients" },
         ].map((item, idx) => (
           <div key={idx} className="bg-white p-4 rounded-xl shadow-xl flex flex-col items-center text-center gap-2 border border-gray-100">
-            <item.icon className="w-6 h-6 text-orange-600" />
+            {/* Icons in Brand Red */}
+            <item.icon className="w-6 h-6 text-[#EA4335]" />
             <span className="text-xs font-semibold text-gray-700 leading-tight">{item.text}</span>
           </div>
         ))}

@@ -35,7 +35,8 @@ export const Checkout: React.FC<CheckoutProps> = ({ total, onProceed }) => {
         {/* Delivery Details */}
         <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
           <div className="flex items-center gap-2 mb-2">
-            <Truck className="w-5 h-5 text-orange-600" />
+            {/* Brand Blue for logistics */}
+            <Truck className="w-5 h-5 text-[#4285F4]" />
             <h3 className="font-bold text-gray-900">Delivery Details</h3>
           </div>
           
@@ -46,7 +47,8 @@ export const Checkout: React.FC<CheckoutProps> = ({ total, onProceed }) => {
                 required
                 type="text"
                 placeholder="e.g. John Doe"
-                className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                // Brand Blue Focus Ring
+                className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-[#4285F4] outline-none transition-all"
                 value={details.name}
                 onChange={e => setDetails({...details, name: e.target.value})}
               />
@@ -57,7 +59,7 @@ export const Checkout: React.FC<CheckoutProps> = ({ total, onProceed }) => {
                 required
                 type="tel"
                 placeholder="e.g. 08012345678"
-                className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-[#4285F4] outline-none transition-all"
                 value={details.phone}
                 onChange={e => setDetails({...details, phone: e.target.value})}
               />
@@ -68,7 +70,7 @@ export const Checkout: React.FC<CheckoutProps> = ({ total, onProceed }) => {
                 required
                 placeholder="Full address (Street, Landmark, etc.)"
                 rows={2}
-                className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-[#4285F4] outline-none transition-all"
                 value={details.address}
                 onChange={e => setDetails({...details, address: e.target.value})}
               />
@@ -79,7 +81,7 @@ export const Checkout: React.FC<CheckoutProps> = ({ total, onProceed }) => {
         {/* Payment Selection */}
         <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
            <div className="flex items-center gap-2 mb-2">
-            <ShieldCheck className="w-5 h-5 text-green-600" />
+            <ShieldCheck className="w-5 h-5 text-[#34A853]" />
             <h3 className="font-bold text-gray-900">Payment Method</h3>
           </div>
 
@@ -89,23 +91,23 @@ export const Checkout: React.FC<CheckoutProps> = ({ total, onProceed }) => {
               onClick={() => setMethod('prepay')}
               className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all overflow-hidden ${
                 method === 'prepay' 
-                  ? 'border-green-500 bg-green-50' 
+                  ? 'border-[#34A853] bg-green-50' 
                   : 'border-gray-200 hover:border-green-200'
               }`}
             >
                {method === 'prepay' && (
-                 <div className="absolute top-4 right-4 text-green-600">
+                 <div className="absolute top-4 right-4 text-[#34A853]">
                    <CheckCircle2 className="w-6 h-6 fill-green-100" />
                  </div>
                )}
                <div className="flex items-center gap-3 mb-1">
-                 <div className="p-2 bg-green-100 rounded-lg text-green-700">
+                 <div className="p-2 bg-green-100 rounded-lg text-[#34A853]">
                     <CreditCard className="w-5 h-5" />
                  </div>
                  <div className="font-bold text-gray-900">Pay Now & Save</div>
                </div>
                <p className="text-sm text-gray-600 ml-12">
-                 Get <span className="font-bold text-green-700">{DISCOUNT_RATE * 100}% discount</span> via Bank Transfer.
+                 Get <span className="font-bold text-[#34A853]">{DISCOUNT_RATE * 100}% discount</span> via Bank Transfer.
                </p>
             </div>
 
@@ -148,7 +150,7 @@ export const Checkout: React.FC<CheckoutProps> = ({ total, onProceed }) => {
           </div>
           
           {method === 'prepay' && (
-            <div className="flex justify-between text-green-600 font-bold text-sm bg-green-50 p-2 rounded-lg">
+            <div className="flex justify-between text-[#34A853] font-bold text-sm bg-green-50 p-2 rounded-lg">
               <span>Prepayment Discount (10%)</span>
               <span>-{CURRENCY}{discountAmount.toLocaleString()}</span>
             </div>
@@ -169,7 +171,7 @@ export const Checkout: React.FC<CheckoutProps> = ({ total, onProceed }) => {
           </div>
         </div>
 
-        <Button type="submit" fullWidth size="lg" className="shadow-xl shadow-orange-200 mb-8">
+        <Button type="submit" fullWidth size="lg" className="shadow-xl shadow-red-200 mb-8">
           {method === 'prepay' ? 'Proceed to Payment' : `Place Order (${CURRENCY}${finalTotal.toLocaleString()})`}
         </Button>
       </form>

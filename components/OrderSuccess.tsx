@@ -81,7 +81,8 @@ Please confirm my order!
         </div>
         <div className="flex justify-between items-center">
             <span className="text-xs text-gray-500 font-bold uppercase">Status</span>
-            <span className="text-xs font-bold text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full">
+            {/* Updated status color to Brand Red */}
+            <span className="text-xs font-bold text-[#EA4335] bg-red-50 px-2 py-0.5 rounded-full">
                 {order.paymentMethod === 'prepay' ? 'Verifying Payment' : 'Pending Confirmation'}
             </span>
         </div>

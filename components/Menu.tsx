@@ -26,7 +26,8 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
               onClick={() => setActiveCategory(cat as Category)}
               className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
                 activeCategory === cat 
-                  ? 'bg-gray-900 text-white shadow-md transform scale-105' 
+                  // Updated active state to Brand Blue #4285F4
+                  ? 'bg-[#4285F4] text-white shadow-md transform scale-105' 
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -43,7 +44,8 @@ export const Menu: React.FC<MenuProps> = ({ onAddToCart }) => {
             <div className="w-28 h-28 shrink-0 rounded-xl overflow-hidden bg-gray-100 relative">
                <img src={item.image} alt={item.name} className="w-full h-full object-cover" loading="lazy" />
                {item.popular && (
-                 <span className="absolute top-0 left-0 bg-orange-500 text-white text-[10px] font-bold px-2 py-1 rounded-br-lg">
+                 // Updated POPULAR tag to Brand Red
+                 <span className="absolute top-0 left-0 bg-[#EA4335] text-white text-[10px] font-bold px-2 py-1 rounded-br-lg">
                    POPULAR
                  </span>
                )}

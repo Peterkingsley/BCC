@@ -50,13 +50,13 @@ export const PaymentView: React.FC<PaymentViewProps> = ({ cartTotal, onConfirmPa
         <div className="relative z-10">
             <p className="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Total Amount to Transfer</p>
             <h1 className="text-4xl font-extrabold text-white">{CURRENCY}{totalToPay.toLocaleString()}</h1>
-            <div className="mt-2 inline-flex items-center gap-1 bg-green-500/20 text-green-300 px-2 py-1 rounded text-xs font-medium">
+            <div className="mt-2 inline-flex items-center gap-1 bg-[#34A853]/20 text-green-300 px-2 py-1 rounded text-xs font-medium">
                 <CheckCircle2 className="w-3 h-3" /> Discount Applied
             </div>
         </div>
-        {/* Decorative circles */}
+        {/* Decorative circles - Updated to Brand Red */}
         <div className="absolute -top-10 -left-10 w-32 h-32 bg-gray-800 rounded-full blur-2xl opacity-50"></div>
-        <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-orange-600 rounded-full blur-3xl opacity-20"></div>
+        <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-[#EA4335] rounded-full blur-3xl opacity-20"></div>
       </div>
 
       <div className="space-y-6">
@@ -66,7 +66,7 @@ export const PaymentView: React.FC<PaymentViewProps> = ({ cartTotal, onConfirmPa
                 <Banknote className="w-24 h-24" />
             </div>
             
-            <p className="text-xs font-bold text-green-600 mb-4 uppercase tracking-wide flex items-center gap-2">
+            <p className="text-xs font-bold text-[#34A853] mb-4 uppercase tracking-wide flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4" /> Official Account Details
             </p>
 
@@ -85,11 +85,11 @@ export const PaymentView: React.FC<PaymentViewProps> = ({ cartTotal, onConfirmPa
                         <span className="font-mono font-black text-2xl text-gray-900 tracking-widest">9024866449</span>
                         <button 
                             onClick={() => copyToClipboard('9024866449')}
-                            className="p-2 bg-white shadow-sm border border-gray-200 rounded-lg hover:text-green-600 active:scale-95 transition-all"
+                            className="p-2 bg-white shadow-sm border border-gray-200 rounded-lg hover:text-[#34A853] active:scale-95 transition-all"
                             title="Copy Account Number"
                         >
                             {copied ? (
-                                <CheckCircle2 className="w-5 h-5 text-green-600 animate-in fade-in zoom-in" />
+                                <CheckCircle2 className="w-5 h-5 text-[#34A853] animate-in fade-in zoom-in" />
                             ) : (
                                 <Copy className="w-5 h-5" />
                             )}
@@ -102,7 +102,7 @@ export const PaymentView: React.FC<PaymentViewProps> = ({ cartTotal, onConfirmPa
         {/* Confirmation Form */}
         <form onSubmit={handleSubmit} className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
             <div className="flex items-center gap-2 mb-4">
-                <AlertCircle className="w-5 h-5 text-orange-600" />
+                <AlertCircle className="w-5 h-5 text-[#EA4335]" />
                 <h3 className="font-bold text-gray-900">Confirm Your Transfer</h3>
             </div>
             
@@ -113,7 +113,7 @@ export const PaymentView: React.FC<PaymentViewProps> = ({ cartTotal, onConfirmPa
                         required
                         type="text" 
                         placeholder="Name on your bank account"
-                        className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-green-500 outline-none transition-all"
+                        className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-[#34A853] outline-none transition-all"
                         value={proof.senderName}
                         onChange={(e) => setProof({...proof, senderName: e.target.value})}
                     />
@@ -125,7 +125,7 @@ export const PaymentView: React.FC<PaymentViewProps> = ({ cartTotal, onConfirmPa
                             required
                             type="text" 
                             placeholder="e.g. GTBank"
-                            className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-green-500 outline-none transition-all"
+                            className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-[#34A853] outline-none transition-all"
                             value={proof.senderBank}
                             onChange={(e) => setProof({...proof, senderBank: e.target.value})}
                         />
@@ -136,7 +136,7 @@ export const PaymentView: React.FC<PaymentViewProps> = ({ cartTotal, onConfirmPa
                             required
                             type="text" 
                             placeholder="Last 4 digits ok"
-                            className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-green-500 outline-none transition-all"
+                            className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-[#34A853] outline-none transition-all"
                             value={proof.accountNumber}
                             onChange={(e) => setProof({...proof, accountNumber: e.target.value})}
                         />
@@ -144,7 +144,7 @@ export const PaymentView: React.FC<PaymentViewProps> = ({ cartTotal, onConfirmPa
                 </div>
             </div>
 
-            <Button type="submit" fullWidth size="lg" className="mt-6 bg-green-600 hover:bg-green-700 shadow-green-200">
+            <Button type="submit" fullWidth size="lg" className="mt-6 bg-[#34A853] hover:bg-[#2d9147] shadow-green-200">
                 I Have Sent the Money
             </Button>
         </form>
