@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DeliveryDetails } from '../types';
-import { CURRENCY, DISCOUNT_RATE, DELIVERY_FEE } from '../constants';
+import { CURRENCY, DISCOUNT_RATE, DELIVERY_FEE, NIGERIA_LOCATIONS } from '../constants';
 import { Button } from './Button';
-import { CreditCard, Truck, CheckCircle2, ShieldCheck, Banknote } from 'lucide-react';
+import { CreditCard, Truck, CheckCircle2, ShieldCheck, Banknote, MapPin, AlertTriangle } from 'lucide-react';
 
 interface CheckoutProps {
   total: number;
@@ -18,14 +18,42 @@ export const Checkout: React.FC<CheckoutProps> = ({ total, onProceed }) => {
     instructions: ''
   });
 
+  // Location State
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedLGA, setSelectedLGA] = useState('');
+  const [streetAddress, setStreetAddress] = useState('');
+
+  // Derived state for validation
+  const isLocationValid = selectedState === 'Akwa Ibom' && selectedLGA === 'Ikot Abasi';
+
+  // Update the full address whenever parts change, but only if location is valid
+  useEffect(() => {
+    if (isLocationValid && streetAddress) {
+      setDetails(prev => ({
+        ...prev,
+        address: `${streetAddress}, ${selectedLGA}, ${selectedState}`
+      }));
+    } else {
+      // Clear address if location becomes invalid to prevent submission of bad data
+      setDetails(prev => ({ ...prev, address: '' }));
+    }
+  }, [selectedState, selectedLGA, streetAddress, isLocationValid]);
+
   const discountAmount = Math.round(total * DISCOUNT_RATE);
   const finalTotal = method === 'prepay' ? total - discountAmount + DELIVERY_FEE : total + DELIVERY_FEE;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!details.name || !details.phone || !details.address) return;
+    if (!details.name || !details.phone || !isLocationValid || !streetAddress) return;
     onProceed(details, method);
   };
+
+  const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedState(e.target.value);
+    setSelectedLGA(''); // Reset LGA when state changes
+  };
+
+  const currentLGAs = NIGERIA_LOCATIONS.find(s => s.state === selectedState)?.lgas || [];
 
   return (
     <div className="pb-32 px-4 pt-4 max-w-2xl mx-auto animate-in slide-in-from-right duration-300">
@@ -64,17 +92,74 @@ export const Checkout: React.FC<CheckoutProps> = ({ total, onProceed }) => {
                 onChange={e => setDetails({...details, phone: e.target.value})}
               />
             </div>
-            <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1">Delivery Address</label>
-              <textarea
-                required
-                placeholder="Full address (Street, Landmark, etc.)"
-                rows={2}
-                className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-[#4285F4] outline-none transition-all"
-                value={details.address}
-                onChange={e => setDetails({...details, address: e.target.value})}
-              />
+            
+            {/* Location Selection */}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 mb-1">State</label>
+                <div className="relative">
+                  <select 
+                    value={selectedState}
+                    onChange={handleStateChange}
+                    className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-[#4285F4] outline-none transition-all appearance-none"
+                    required
+                  >
+                    <option value="">Select State</option>
+                    {NIGERIA_LOCATIONS.map(loc => (
+                      <option key={loc.state} value={loc.state}>{loc.state}</option>
+                    ))}
+                  </select>
+                  <MapPin className="absolute right-3 top-3.5 w-4 h-4 text-gray-400 pointer-events-none" />
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 mb-1">LGA</label>
+                <div className="relative">
+                  <select 
+                    value={selectedLGA}
+                    onChange={(e) => setSelectedLGA(e.target.value)}
+                    disabled={!selectedState}
+                    className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-[#4285F4] outline-none transition-all appearance-none disabled:opacity-50"
+                    required
+                  >
+                    <option value="">Select LGA</option>
+                    {currentLGAs.map(lga => (
+                      <option key={lga} value={lga}>{lga}</option>
+                    ))}
+                  </select>
+                  <MapPin className="absolute right-3 top-3.5 w-4 h-4 text-gray-400 pointer-events-none" />
+                </div>
+              </div>
             </div>
+
+            {/* Availability Warning */}
+            {selectedLGA && !isLocationValid && (
+              <div className="flex items-start gap-3 bg-red-50 border border-red-100 p-3 rounded-xl animate-in fade-in zoom-in duration-300">
+                <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="text-sm font-bold text-red-700">Not Available Here</h4>
+                  <p className="text-xs text-red-600 mt-1 leading-snug">
+                    Sorry, we currently only deliver to <strong>Ikot Abasi, Akwa Ibom</strong>.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Address Input - Only shown if valid */}
+            {isLocationValid && (
+              <div className="animate-in fade-in slide-in-from-top-2">
+                <label className="block text-xs font-semibold text-gray-500 mb-1">Street Address / Landmark</label>
+                <textarea
+                  required
+                  placeholder="e.g. 15 Marina Road, near UBA Bank"
+                  rows={2}
+                  className="w-full p-3 bg-gray-50 rounded-xl border border-gray-200 focus:bg-white focus:ring-2 focus:ring-[#4285F4] outline-none transition-all"
+                  value={streetAddress}
+                  onChange={e => setStreetAddress(e.target.value)}
+                />
+              </div>
+            )}
           </div>
         </div>
 
@@ -175,7 +260,13 @@ export const Checkout: React.FC<CheckoutProps> = ({ total, onProceed }) => {
           </div>
         </div>
 
-        <Button type="submit" fullWidth size="lg" className="shadow-xl shadow-red-200 mb-8">
+        <Button 
+          type="submit" 
+          fullWidth 
+          size="lg" 
+          className="shadow-xl shadow-red-200 mb-8 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={!isLocationValid || !streetAddress}
+        >
           {method === 'prepay' ? 'Proceed to Payment' : `Place Order (${CURRENCY}${finalTotal.toLocaleString()})`}
         </Button>
       </form>
