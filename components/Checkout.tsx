@@ -144,9 +144,13 @@ export const Checkout: React.FC<CheckoutProps> = ({ total, onProceed }) => {
             <span>Subtotal</span>
             <span>{CURRENCY}{total.toLocaleString()}</span>
           </div>
-          <div className="flex justify-between text-gray-600 text-sm">
-            <span>Delivery Fee</span>
-            <span>{CURRENCY}{DELIVERY_FEE.toLocaleString()}</span>
+          
+          {/* Prominent Delivery Fee */}
+          <div className="flex justify-between items-center text-sm">
+            <span className="flex items-center gap-1.5 text-gray-700 font-semibold">
+               <Truck className="w-4 h-4 text-[#4285F4]" /> Delivery Fee
+            </span>
+            <span className="font-bold text-gray-900">{CURRENCY}{DELIVERY_FEE.toLocaleString()}</span>
           </div>
           
           {method === 'prepay' && (

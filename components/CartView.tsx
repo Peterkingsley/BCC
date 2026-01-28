@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CartItem, PackagingOption } from '../types';
 import { CURRENCY, PACKAGING_OPTIONS, MENU_ITEMS, DELIVERY_FEE } from '../constants';
 import { Button } from './Button';
-import { Minus, Plus, Trash2, Gift, PartyPopper } from 'lucide-react';
+import { Minus, Plus, Trash2, Gift, PartyPopper, Truck } from 'lucide-react';
 
 interface CartViewProps {
   items: CartItem[];
@@ -199,10 +199,15 @@ export const CartView: React.FC<CartViewProps> = ({
               <span className="text-gray-500 font-medium">Subtotal</span>
               <span className="font-semibold text-gray-900">{CURRENCY}{subtotal.toLocaleString()}</span>
            </div>
+           
+           {/* Added Delivery Fee Display with visual emphasis */}
            <div className="flex justify-between items-center text-sm px-1">
-              <span className="text-gray-500 font-medium">Delivery Fee</span>
+              <span className="flex items-center gap-1 text-gray-600 font-medium">
+                <Truck className="w-4 h-4" /> Delivery Fee
+              </span>
               <span className="font-semibold text-gray-900">{CURRENCY}{DELIVERY_FEE.toLocaleString()}</span>
            </div>
+
            {selectedPackaging && (
              <div className="flex justify-between items-center text-sm text-indigo-600 px-1">
                 <span className="font-medium">Special Packaging</span>
