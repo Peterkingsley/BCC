@@ -81,7 +81,7 @@ export const CartView: React.FC<CartViewProps> = ({
                  <div className="flex items-center gap-4 bg-gray-50 rounded-xl p-1.5 border border-gray-100 shadow-inner">
                    <button 
                      onClick={() => onUpdateQuantity(item.id, -1)} 
-                     className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm text-gray-600 hover:text-red-500 active:scale-90 transition-transform duration-100 border border-gray-100"
+                     className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm text-gray-600 hover:text-red-500 active:scale-90 transition-transform duration-100 border border-gray-100" aria-label={item.quantity === 1 ? "Remove item" : "Decrease quantity"}
                    >
                      {item.quantity === 1 ? <Trash2 className="w-4 h-4" /> : <Minus className="w-4 h-4" />}
                    </button>
@@ -92,7 +92,7 @@ export const CartView: React.FC<CartViewProps> = ({
                    
                    <button 
                      onClick={() => onUpdateQuantity(item.id, 1)} 
-                     className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm text-gray-600 hover:text-[#34A853] active:scale-90 transition-transform duration-100 border border-gray-100"
+                     className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm text-gray-600 hover:text-[#34A853] active:scale-90 transition-transform duration-100 border border-gray-100" aria-label="Increase quantity"
                    >
                      <Plus className="w-4 h-4" />
                    </button>
@@ -122,7 +122,7 @@ export const CartView: React.FC<CartViewProps> = ({
                 <button 
                   onClick={() => onAddUpsell(item)}
                   // Brand Red Add Button
-                  className="w-full text-xs bg-[#EA4335] text-white font-bold px-3 py-2.5 rounded-xl shadow-lg shadow-red-200 hover:bg-[#d33426] active:scale-95 transition-all flex items-center justify-center gap-1.5"
+                  className="w-full text-xs bg-[#EA4335] text-white font-bold px-3 py-2.5 rounded-xl shadow-lg shadow-red-200 hover:bg-[#d33426] active:scale-95 transition-all flex items-center justify-center gap-1.5" aria-label={`Add ${item.name} to cart`}
                 >
                   Add <Plus className="w-3.5 h-3.5" strokeWidth={3} />
                 </button>
@@ -157,10 +157,11 @@ export const CartView: React.FC<CartViewProps> = ({
           <div className="space-y-4 animate-in slide-in-from-top-2 fade-in duration-300">
              <div className="grid grid-cols-1 gap-3">
                {PACKAGING_OPTIONS.map(opt => (
-                 <div 
+                 <button
                   key={opt.id}
+                  type="button"
                   onClick={() => onSetPackaging(opt.id === 'std' ? null : opt)}
-                  className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center justify-between ${
+                  className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center justify-between w-full text-left ${
                     (selectedPackaging?.id === opt.id) || (opt.id === 'std' && !selectedPackaging)
                       ? 'border-indigo-500 bg-white shadow-md scale-[1.02]' 
                       : 'border-transparent bg-white/40 hover:bg-white/80'
@@ -176,7 +177,7 @@ export const CartView: React.FC<CartViewProps> = ({
                    <div className="font-bold text-sm bg-indigo-50 px-2 py-1 rounded text-indigo-700">
                      {opt.price === 0 ? 'Free' : `+${CURRENCY}${opt.price.toLocaleString()}`}
                    </div>
-                 </div>
+                 </button>
                ))}
              </div>
              {selectedPackaging && (

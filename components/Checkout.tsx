@@ -172,9 +172,10 @@ export const Checkout: React.FC<CheckoutProps> = ({ total, onProceed }) => {
 
           <div className="grid grid-cols-1 gap-3">
             {/* Prepay Option */}
-            <div 
+            <button
+              type="button"
               onClick={() => setMethod('prepay')}
-              className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all overflow-hidden ${
+              className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all overflow-hidden text-left w-full ${
                 method === 'prepay' 
                   ? 'border-[#34A853] bg-green-50' 
                   : 'border-gray-200 hover:border-green-200'
@@ -194,12 +195,13 @@ export const Checkout: React.FC<CheckoutProps> = ({ total, onProceed }) => {
                <p className="text-sm text-gray-600 ml-12">
                  Get <span className="font-bold text-[#34A853]">{DISCOUNT_RATE * 100}% discount</span> via Bank Transfer.
                </p>
-            </div>
+            </button>
 
             {/* COD Option */}
-            <div 
+            <button
+              type="button"
               onClick={() => setMethod('cod')}
-              className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all ${
+              className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all text-left w-full ${
                 method === 'cod' 
                   ? 'border-gray-900 bg-gray-50' 
                   : 'border-gray-200 hover:border-gray-300'
@@ -219,7 +221,7 @@ export const Checkout: React.FC<CheckoutProps> = ({ total, onProceed }) => {
                <p className="text-sm text-gray-600 ml-12">
                  Pay cash or transfer when rider arrives. No discount.
                </p>
-            </div>
+            </button>
           </div>
         </div>
 

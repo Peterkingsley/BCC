@@ -2,7 +2,7 @@ import React from 'react';
 import { OrderState } from '../types';
 import { CURRENCY, DISCOUNT_RATE, DELIVERY_FEE } from '../constants';
 import { Button } from './Button';
-import { Clock, ShoppingBag, ChevronRight, Package } from 'lucide-react';
+import { Clock, Package } from 'lucide-react';
 
 interface OrderHistoryProps {
   orders: OrderState[];

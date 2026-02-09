@@ -10,20 +10,20 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ cartCount, currentView, onNavigate, onBack }) => {
-  const isHome = currentView === 'home';
   const showBack = currentView !== 'home' && currentView !== 'success';
 
   return (
     <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 h-[72px] flex items-center justify-between px-4 lg:px-8 shadow-sm">
       <div className="flex items-center gap-2">
         {showBack && (
-          <button onClick={onBack} className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors">
+          <button onClick={onBack} className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors" aria-label="Go back">
             <ChevronLeft className="w-6 h-6 text-gray-700" />
           </button>
         )}
-        <div 
+        <button
           onClick={() => onNavigate('home')} 
-          className="cursor-pointer flex flex-col justify-center select-none"
+          className="flex flex-col justify-center select-none text-left"
+          aria-label="Ben's Creamy Creation - Home"
         >
           {/* Logo Main Text */}
           <div className="flex items-baseline gap-[2px] font-black text-xl lg:text-2xl leading-none tracking-tight">
@@ -55,7 +55,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, currentView, onNaviga
           <span className="text-[10px] text-gray-500 font-bold tracking-widest uppercase mt-1 text-center sm:text-left">
             Artisan Desserts & More
           </span>
-        </div>
+        </button>
       </div>
 
       {currentView !== 'success' && (
@@ -65,6 +65,7 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, currentView, onNaviga
             // Updated to Brand Blue Theme
             className={`p-2 rounded-full transition-colors ${currentView === 'history' ? 'bg-blue-50 text-[#4285F4]' : 'hover:bg-gray-100 text-gray-600'}`}
             title="Order History"
+            aria-label="View order history"
           >
             <History className="w-6 h-6" />
           </button>
@@ -72,6 +73,8 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount, currentView, onNaviga
           <button 
             onClick={() => onNavigate('cart')} 
             className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
+            aria-label="View shopping cart"
+            title="Shopping Cart"
           >
             <ShoppingBag className="w-6 h-6 text-gray-800" />
             {cartCount > 0 && (
